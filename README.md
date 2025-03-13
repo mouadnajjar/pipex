@@ -25,45 +25,28 @@ Link everything together to produce the executable pipex.
 Usage
 The executable requires exactly four arguments:
 
-sh
-Copy
-Edit
 ./pipex infile "cmd1" "cmd2" outfile
 For example:
 
-sh
-Copy
-Edit
 ./pipex infiles/basic.txt "cat -e" "grep something" outfiles/output.txt
 This command emulates:
 
-sh
-Copy
-Edit
 < infiles/basic.txt cat -e | grep something > outfiles/output.txt
-Testing
+
+Testing:
+
 You can test Pipex by comparing its output with the output of a shell pipeline. For instance:
 
-sh
-Copy
-Edit
 < infiles/basic.txt cat -e | grep something > outfiles/output_tester.txt
 Then, compare outfiles/output.txt and outfiles/output_tester.txt to verify the behavior.
 
-Clean Up
+Clean Up :
 To remove object files:
-
-sh
-Copy
-Edit
-make clean
+                                                         make clean
 To remove the executable and the copied library file:
+                                                         make fclean
 
-sh
-Copy
-Edit
-make fclean
-Requirements
+Requirements :
 Language: C
 Compiler: cc
 Library: libft (must be present in the repository root)

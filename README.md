@@ -4,10 +4,6 @@ Pipex is a project that replicates the behavior of a shell pipeline. It takes an
 
 < infile cmd1 | cmd2 > outfile
 
-markdown
-Copy
-Edit
-
 ## Features
 
 - **Input/Output Redirection:** Reads from a file and writes to a file.

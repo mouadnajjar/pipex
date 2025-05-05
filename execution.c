@@ -6,7 +6,7 @@
 /*   By: monajjar <monajjar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:29:47 by monajjar          #+#    #+#             */
-/*   Updated: 2025/03/13 16:05:22 by monajjar         ###   ########.fr       */
+/*   Updated: 2025/03/16 17:03:27 by monajjar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	setup_redirections(t_pipex *px, int *input_fd, int *output_fd,
 		open_files(px, input_fd, output_fd, cmd_data);
 	if (dup2(*output_fd, STDOUT_FILENO) == -1)
 	{
+		close_fds(px, cmd_data->args, cmd_data->path);
 		write(2, "dup2 output_fd to STDOUT_FILENO\n", 31);
 		exit (errno);
 	}
@@ -67,6 +68,7 @@ void	setup_redirections(t_pipex *px, int *input_fd, int *output_fd,
 		open_files(px, input_fd, output_fd, cmd_data);
 	if (dup2(*input_fd, STDIN_FILENO) == -1)
 	{
+		close_fds(px, cmd_data->args, cmd_data->path);
 		write(2, "dup2 input_fd to STDIN_FILENO\n", 31);
 		exit (errno);
 	}
@@ -78,9 +80,13 @@ void	child_process(char *cmd, t_pipex *px, int input_fd, int output_fd)
 {
 	t_cmd_data	cmd_data;
 
-	cmd_data.args = ft_split(cmd, ' ');
+	px->cmd = check_sign(cmd);
+	px->cmd = remove_quotes(cmd);
+	cmd_data.args = ft_split(px->cmd, ' ');
+	reset_space(&cmd_data);
 	if (!cmd_data.args || !cmd_data.args[0] || cmd_data.args[0][0] == '\0')
 	{
+		write(2, "Command '' not found\n", 21);
 		close_fds(px, cmd_data.args, NULL);
 		if (input_fd != -1)
 			close(input_fd);
@@ -113,5 +119,10 @@ int	wait_child(pid_t pid1, pid_t pid2)
 	waitpid(pid2, &status, 0);
 	if (WIFEXITED(status))
 		exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		ft_putstr_fd("pipex : cmd2 tirminated due to signal.", 2);
+		return (128 + WTERMSIG(status));
+	}
 	return (exit_code);
 }

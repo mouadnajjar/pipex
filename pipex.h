@@ -6,7 +6,7 @@
 /*   By: monajjar <monajjar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:01:55 by monajjar          #+#    #+#             */
-/*   Updated: 2025/03/13 15:39:43 by monajjar         ###   ########.fr       */
+/*   Updated: 2025/03/16 15:39:05 by monajjar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ typedef struct s_pipex
 	pid_t	pid2;
 	int		pipe_fd[2];
 	int		status;
-	int		is_last;
-	char	*cmd1;
-	char	*cmd2;
 	char	**envp;
+	char	*cmd;
 	char	*input_file;
 	char	*output_file;
 }			t_pipex;
@@ -75,5 +73,8 @@ int		wait_child(pid_t pid1, pid_t pid2);
 //--------------PATH_PARSING------------//
 char	**split_paths(char **envp);
 void	check_path(char **envp);
+char	*check_sign(char *s);
+void	reset_space(t_cmd_data *cmd_data);
+char	*remove_quotes(char *cmd);
 //--------------------------------------//
 #endif

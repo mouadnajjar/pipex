@@ -6,7 +6,7 @@
 /*   By: monajjar <monajjar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:14:02 by monajjar          #+#    #+#             */
-/*   Updated: 2025/03/13 15:35:04 by monajjar         ###   ########.fr       */
+/*   Updated: 2025/03/15 21:17:46 by monajjar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ pid_t	fork_child(t_pipex *px, int input_fd, int output_fd, char *cmd)
 	pid = fork();
 	if (pid == -1)
 	{
+		close_pipes(px);
 		perror("Fork error");
 		exit (errno);
 	}

@@ -6,7 +6,7 @@
 /*   By: monajjar <monajjar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 15:17:31 by monajjar          #+#    #+#             */
-/*   Updated: 2025/03/13 16:04:11 by monajjar         ###   ########.fr       */
+/*   Updated: 2025/03/16 21:55:45 by monajjar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,24 @@ void	error_command(char	*cmd, char **args, char *path, t_pipex *px)
 		free_2d_array(args);
 	if (path)
 		free(path);
+	if (px->cmd)
+		free(px->cmd);
 	exit (CMD_NOT_FOUND);
 }
 
 char	**split_paths(char **envp)
 {
-	int	i;
+	int		i;
+	char	*default_path;
 
+	default_path = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+	if (!envp)
+		return (ft_split(default_path, ':'));
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
 	if (!envp[i])
-		return (NULL);
+		return (ft_split(default_path, ':'));
 	return (ft_split(envp[i] + 5, ':'));
 }
 
@@ -69,4 +75,6 @@ void	close_fds(t_pipex *px, char **args, char *path)
 		free_2d_array(args);
 	if (path)
 		free(path);
+	if (px->cmd)
+		free(px->cmd);
 }

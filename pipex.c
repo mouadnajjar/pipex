@@ -6,7 +6,7 @@
 /*   By: monajjar <monajjar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:09:04 by monajjar          #+#    #+#             */
-/*   Updated: 2025/03/13 16:08:48 by monajjar         ###   ########.fr       */
+/*   Updated: 2025/03/16 16:06:20 by monajjar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int ac, char **av, char **envp)
 	if (ac != 5)
 	{
 		write(2, "Error\n", 7);
-		exit(1);
+		return (1);
 	}
 	return (pipex(av, envp));
 }
